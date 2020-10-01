@@ -1,3 +1,5 @@
+import 'package:WeatherApp/MyList.dart';
+import 'package:WeatherApp/weatherColumn.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,168 +16,171 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  Map<String, List<String>> _daysTemps;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Weather App"),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {},
-            color: Colors.white,
+          appBar: AppBar(
+            title: Text("Weather Forecast"),
+            elevation: 0,
+            centerTitle: true,
+            backgroundColor: Color.fromRGBO(36, 55, 85, 1),
           ),
           backgroundColor: Color.fromRGBO(36, 55, 85, 1),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.settings),
-              color: Colors.white,
-              onPressed: () {},
-            )
-          ],
-        ),
-        body: _body(),
-        backgroundColor: Color.fromRGBO(36, 55, 85, 1),
-      ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
+            child: Column(
+              children: <Widget>[
+                _topSearch(),
+                SizedBox(
+                  height: 35,
+                ),
+                Text(
+                  "Almaty, KZ",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.w300),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Wednesday, 30, 2020",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w300),
+                ),
+                SizedBox(
+                  height: 35,
+                ),
+                _currentTemperature(),
+                SizedBox(
+                  height: 35,
+                ),
+                _additionalInfo(),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  "7-DAY WEATHER FORECAST",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w300),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  height: 120,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      MyList('Monday', '15'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MyList('Tuesday', '9'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MyList('Wednesday', '5'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MyList('Thursday', '0'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MyList('Friday', '11'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MyList('Saturday', '20'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MyList('Sunday', '15'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
 
-final String text =
-    "The mechanism may have been known, but it wasn't clear just how many viruses and bacteria were using method.";
-SingleChildScrollView _body() {
-  return SingleChildScrollView(
-    child: Column(
-      children: <Widget>[
-        _imageHeader(),
-        Padding(
-          padding: EdgeInsets.only(left: 8, right: 8, top: 20),
-          child: Text(
-            "Wednesday - September 30",
-            style: TextStyle(
-                color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 20),
-          child: Text(
-            text,
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        _todayInfo(),
-        _nextDays(),
-        SizedBox(
-          height: 13,
-        ),
-        _bottomInfo(),
-      ],
-    ),
+Row _topSearch() {
+  return Row(
+    children: <Widget>[
+      Icon(
+        Icons.search,
+        color: Colors.white,
+      ),
+      SizedBox(
+        width: 15,
+      ),
+      Text(
+        "Enter City Name",
+        style: TextStyle(color: Colors.white, fontSize: 17),
+      )
+    ],
   );
 }
 
-Image _imageHeader() {
-  return Image(
-    image: AssetImage('assets/sdf.jpg'),
-    fit: BoxFit.cover,
-  );
-}
-
-Container _todayInfo() {
-  return Container(
-    margin: EdgeInsets.only(top: 10, bottom: 10),
-    padding: EdgeInsets.all(8),
-    width: 230,
-    decoration: BoxDecoration(
-        color: Color.fromRGBO(50, 66, 92, 1),
-        borderRadius: BorderRadius.all(Radius.circular(10))),
-    child: Row(
-      children: <Widget>[
-        Icon(
-          Icons.cloud,
-          color: Colors.blue[400],
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "10°C Rainy",
-              style: TextStyle(color: Color.fromRGBO(10, 174, 254, 1)),
-            ),
-            Text(
-              "Almatinskaya oblast, Almaty",
-              style: TextStyle(color: Colors.white),
-            )
-          ],
-        )
-      ],
-    ),
-  );
-}
-
-Wrap _nextDays() {
-  return Wrap(
-    children: List.generate(8, (int index) {
-      return Container(
-        margin: EdgeInsets.only(right: 10),
-        child: Chip(
-          padding: EdgeInsets.all(8),
-          label: Text(
-            "${index + 20}°C",
-            style: TextStyle(color: Colors.white, fontSize: 15),
-          ),
-          avatar: Icon(
-            Icons.wb_sunny,
-            color: Colors.yellow,
-          ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          backgroundColor: Color.fromRGBO(50, 66, 92, 1),
-        ),
-      );
-    }),
-  );
-}
-
-Row _bottomInfo() {
+Row _currentTemperature() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
-      Text(
-        "Info with gismeteo.kz",
-        style: TextStyle(color: Colors.white),
+      Icon(
+        Icons.wb_sunny,
+        color: Colors.yellow,
+        size: 80,
       ),
       SizedBox(
-        width: 25,
+        width: 30,
       ),
-      Icon(
-        Icons.star,
-        color: Colors.yellow[700],
-      ),
-      Icon(
-        Icons.star,
-        color: Colors.yellow[700],
-      ),
-      Icon(
-        Icons.star,
-        color: Colors.yellow[700],
-      ),
-      Icon(
-        Icons.star,
-        color: Colors.black,
-      ),
-      Icon(
-        Icons.star,
-        color: Colors.black,
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "14 °F",
+            style: TextStyle(
+                fontSize: 37, color: Colors.white, fontWeight: FontWeight.w200),
+          ),
+          Text(
+            "LIGHT RAIN",
+            style: TextStyle(
+                color: Colors.white, fontSize: 17, fontWeight: FontWeight.w300),
+          )
+        ],
       )
+    ],
+  );
+}
+
+Row _additionalInfo() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      WeatherInfoColumn("5", "km/hr"),
+      SizedBox(
+        width: 80,
+      ),
+      WeatherInfoColumn("3", "%"),
+      SizedBox(
+        width: 80,
+      ),
+      WeatherInfoColumn("20", "%")
     ],
   );
 }
